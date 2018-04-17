@@ -1,110 +1,200 @@
 //
 //  GameScene.swift
-//  Hive
+//  Spaceship
 //
-//  Created by Michael Shellenberger on 4/17/18.
+//  Created by Michael Shellenberger on 4/10/18.
 //  Copyright © 2018 Michael Shellenberger. All rights reserved.
 //
 
 import SpriteKit
 import GameplayKit
 
+//struct physicsCategory {
+//    static let blackSpider1 : UInt32 = 0x1 << 1
+//    static let blackSpider2 : UInt32 = 0x1 << 2
+//}
+
+
 class GameScene: SKScene {
     
-    var entities = [GKEntity]()
-    var graphs = [String : GKGraph]()
+    var playerBlack : HVPlayer?
+    var playerWhite : HVPlayer?
     
-    private var lastUpdateTime : TimeInterval = 0
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    var currentlyHeldPiece : HVToken?
     
-    override func sceneDidLoad() {
+    var cam: SKCameraNode?
+    var turnLabel : SKLabelNode?
+    var playerTurn : PlayerColor?
+    var boardBackground:SKTileMapNode!
+    var highlightBackground : SKTileMapNode!
+    var highlightTile : SKTileGroup?
+    var previousRow : Int!
+    var previousColumn : Int!
+    
+    override func didMove(to view: SKView) {
+        
+        previousRow = 0
+        previousColumn = 0
+        
+        cam = SKCameraNode()
+        self.camera = cam
+        self.addChild(cam!)
+        
+        let zoomOutAction = SKAction.scale(to: 2, duration: 2)
+        cam?.run(zoomOutAction)
+        
+        guard let boardBackground = childNode(withName: "boardBackground")
+            as? SKTileMapNode else {
+                fatalError("Background node not loaded")
+        }
+        self.boardBackground = boardBackground
+        
+        guard let hlBackground = childNode(withName: "highlightBackground")
+            as? SKTileMapNode else {
+                fatalError("Background node not loaded")
+        }
+        self.highlightBackground = hlBackground
+        
+        
+        currentlyHeldPiece = nil
+        playerTurn = PlayerColor.white
+        
+        playerBlack = HVPlayer(color: PlayerColor.black)
+        playerBlack?.addTokens(to: self)
+        
+        playerWhite = HVPlayer(color: PlayerColor.white)
+        playerWhite?.addTokens(to: self)
+        
+        turnLabel = SKLabelNode()
+        turnLabel?.text = String(format:"%@%@", "Player turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
+        turnLabel?.fontSize = 12
+        turnLabel?.fontName = "Helvetica Neue Bold"
+        turnLabel?.fontColor = (playerTurn == PlayerColor.white ? UIColor.white : UIColor.black)
+        turnLabel?.position = CGPoint(x: (-self.frame.size.width / 2) + (((turnLabel?.frame.size.width)! / 2) + 5), y: 198)
+        cam?.addChild(turnLabel!)
+        
 
-        self.lastUpdateTime = 0
-        
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+        guard let tileSet = SKTileSet(named: "Highlight Tile Set") else {
+            fatalError("Object Tiles Tile Set not found")
         }
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
+        let tileGroups = tileSet.tileGroups
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+        guard let hlTile = tileGroups.first else {
+            fatalError("No Highlight tile definition found")
         }
-    }
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+        
+        self.highlightTile = hlTile
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+    
+        let touch : UITouch = touches.first!
+        let location = touch.location(in: self)
+        
+        if playerTurn == .white {
+            for token in (playerWhite?.tokens)! {
+                if token.contains(location) {
+                    currentlyHeldPiece = token
+                }
+            }
+        } else {
+            for token in (playerBlack?.tokens)! {
+                if token.contains(location) {
+                    currentlyHeldPiece = token
+                }
+            }
         }
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        if currentlyHeldPiece != nil {
+            currentlyHeldPiece?.position = location
+            currentlyHeldPiece?.zPosition = 100
+            currentlyHeldPiece?.physicsBody?.isDynamic = true
+        }
+
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        let touch : UITouch = touches.first!
+        
+        let location = touch.location(in: self)
+        
+        if currentlyHeldPiece != nil {
+            currentlyHeldPiece?.position = location
+            
+            let column = boardBackground.tileColumnIndex(fromPosition: location)
+            let row = boardBackground.tileRowIndex(fromPosition: location)
+            
+            if row != self.previousRow || column != self.previousColumn {
+                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
+                self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
+                self.previousRow = row
+                self.previousColumn = column
+            }
+            
+        } else {
+            let positionInScene = touch.location(in:self)
+            let previousPosition = touch.previousLocation(in:self)
+            let translation = CGPoint(x: positionInScene.x - previousPosition.x, y: positionInScene.y - previousPosition.y)
+            
+            panForTranslation(translation)
+        }
     }
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+
+        if currentlyHeldPiece != nil {
+            if playerTurn == .white {
+                playerTurn = .black
+            } else {
+                playerTurn = .white
+            }
+            
+            self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
+            self.previousColumn = 0
+            self.previousRow = 0
+            
+            turnLabel?.fontColor = (playerTurn == PlayerColor.white ? UIColor.white : UIColor.black)
+            turnLabel?.text = String(format:"%@%@", "Players turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
+            
+            let position = currentlyHeldPiece?.position
+            let column = boardBackground.tileColumnIndex(fromPosition: position!)
+            let row = boardBackground.tileRowIndex(fromPosition: position!)
+            
+            let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
+            currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
+            currentlyHeldPiece?.zRotation = 0
+            
+            currentlyHeldPiece?.zPosition = 1
+            currentlyHeldPiece?.physicsBody?.isDynamic = false
+        }
+
+        currentlyHeldPiece = nil
+
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    func panForTranslation(_ translation: CGPoint) {
+        let position = (cam?.position)!
+        let aNewPosition = CGPoint(x: position.x - translation.x, y: position.y - translation.y)
+        cam?.position = aNewPosition
     }
-    
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        
-        // Initialize _lastUpdateTime if it has not already been
-        if (self.lastUpdateTime == 0) {
-            self.lastUpdateTime = currentTime
-        }
-        
-        // Calculate time since last update
-        let dt = currentTime - self.lastUpdateTime
-        
-        // Update entities
-        for entity in self.entities {
-            entity.update(deltaTime: dt)
-        }
-        
-        self.lastUpdateTime = currentTime
+//        if currentlyHeldPiece != nil {
+//            //currentlyHeldPiece?.position = location
+//            
+//            let column = boardBackground.tileColumnIndex(fromPosition: (currentlyHeldPiece?.position)!)
+//            let row = boardBackground.tileRowIndex(fromPosition: (currentlyHeldPiece?.position)!)
+//            
+//            if row != self.previousRow || column != self.previousColumn {
+//                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
+//                self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
+//                self.previousRow = row
+//                self.previousColumn = column
+//            }
+//            
+//        }
     }
 }
