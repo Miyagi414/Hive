@@ -112,12 +112,12 @@
 			isa = PBXGroup;
 			children = (
 				3926204020869C5900783773 /* AppDelegate.swift */,
-				3926207420869C9E00783773 /* GameScene.sks */,
-				392620822087FFEE00783773 /* MenuScene.sks */,
-				3926207C2086A9BA00783773 /* GameBoard.sks */,
 				3926204820869C5A00783773 /* GameViewController.swift */,
-				3926207620869CF300783773 /* GameScene.swift */,
+				392620822087FFEE00783773 /* MenuScene.sks */,
 				3926207E2087FF7800783773 /* MenuScene.swift */,
+				3926207C2086A9BA00783773 /* GameBoard.sks */,
+				3926207420869C9E00783773 /* GameScene.sks */,
+				3926207620869CF300783773 /* GameScene.swift */,
 				3926207720869CF300783773 /* HVPlayer.swift */,
 				3926207820869CF300783773 /* HVToken.swift */,
 				3926204A20869C5A00783773 /* Main.storyboard */,

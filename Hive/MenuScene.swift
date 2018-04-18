@@ -13,21 +13,21 @@ import GameplayKit
 
 class MenuScene: SKScene {
 
-    var startButton : SKShapeNode!
-    var helpButton : SKShapeNode!
+    var startButton : SKSpriteNode!
+    var helpButton : SKSpriteNode!
     
     override func didMove(to view: SKView) {
-        startButton = childNode(withName: "startButton") as! SKShapeNode!
-        helpButton = childNode(withName: "helpButton") as! SKShapeNode!
+        startButton = childNode(withName: "startButton") as! SKSpriteNode!
+        helpButton = childNode(withName: "helpButton") as! SKSpriteNode!
         
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let location = touches.first?.location(in: self)
-        let touchedNode = self.atPoint(location!)
+//        let touchedNode = self.atPoint(location!)
         
-        if touchedNode == startButton {
+        if startButton.contains(location!) {
             
             if let scene = GKScene(fileNamed: "GameScene") {
                 if let sceneNode = scene.rootNode as! GameScene? {
@@ -42,7 +42,7 @@ class MenuScene: SKScene {
                     }
                 }
             }
-        } else if touchedNode == helpButton {
+        } else if helpButton.contains(location!) {
             //TODO: add a Help Screen
         }
     }
