@@ -19,6 +19,8 @@
 		3926207A20869CF300783773 /* HVPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926207720869CF300783773 /* HVPlayer.swift */; };
 		3926207B20869CF300783773 /* HVToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926207820869CF300783773 /* HVToken.swift */; };
 		3926207D2086A9BA00783773 /* GameBoard.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3926207C2086A9BA00783773 /* GameBoard.sks */; };
+		3926207F2087FF7800783773 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926207E2087FF7800783773 /* MenuScene.swift */; };
+		392620832087FFEE00783773 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 392620822087FFEE00783773 /* MenuScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		3926207720869CF300783773 /* HVPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HVPlayer.swift; sourceTree = "<group>"; };
 		3926207820869CF300783773 /* HVToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HVToken.swift; sourceTree = "<group>"; };
 		3926207C2086A9BA00783773 /* GameBoard.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameBoard.sks; sourceTree = "<group>"; };
+		3926207E2087FF7800783773 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		392620822087FFEE00783773 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,9 +113,11 @@
 			children = (
 				3926204020869C5900783773 /* AppDelegate.swift */,
 				3926207420869C9E00783773 /* GameScene.sks */,
+				392620822087FFEE00783773 /* MenuScene.sks */,
 				3926207C2086A9BA00783773 /* GameBoard.sks */,
 				3926204820869C5A00783773 /* GameViewController.swift */,
 				3926207620869CF300783773 /* GameScene.swift */,
+				3926207E2087FF7800783773 /* MenuScene.swift */,
 				3926207720869CF300783773 /* HVPlayer.swift */,
 				3926207820869CF300783773 /* HVToken.swift */,
 				3926204A20869C5A00783773 /* Main.storyboard */,
@@ -251,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3926207D2086A9BA00783773 /* GameBoard.sks in Resources */,
+				392620832087FFEE00783773 /* MenuScene.sks in Resources */,
 				3926204C20869C5A00783773 /* Main.storyboard in Resources */,
 				3926207520869C9E00783773 /* GameScene.sks in Resources */,
 				3926204E20869C5A00783773 /* Assets.xcassets in Resources */,
@@ -282,6 +289,7 @@
 				3926207A20869CF300783773 /* HVPlayer.swift in Sources */,
 				3926207920869CF300783773 /* GameScene.swift in Sources */,
 				3926204920869C5A00783773 /* GameViewController.swift in Sources */,
+				3926207F2087FF7800783773 /* MenuScene.swift in Sources */,
 				3926207B20869CF300783773 /* HVToken.swift in Sources */,
 				3926204120869C5900783773 /* AppDelegate.swift in Sources */,
 			);
@@ -536,6 +544,7 @@
 				3926206D20869C5A00783773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3926206E20869C5A00783773 /* Build configuration list for PBXNativeTarget "HiveTests" */ = {
 			isa = XCConfigurationList;
@@ -544,6 +553,7 @@
 				3926207020869C5A00783773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3926207120869C5A00783773 /* Build configuration list for PBXNativeTarget "HiveUITests" */ = {
 			isa = XCConfigurationList;
@@ -552,6 +562,7 @@
 				3926207320869C5A00783773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
