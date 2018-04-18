@@ -23,10 +23,14 @@ class GameScene: SKScene {
     var currentlyHeldPiece : HVToken?
     
     var cam: SKCameraNode?
+    var scaleNum: CGFloat=1
+    
     var turnLabel : SKLabelNode?
     var playerTurn : PlayerColor?
+    var playableRect: CGRect!
     var boardBackground:SKTileMapNode!
     var highlightBackground : SKTileMapNode!
+    var tabletopBackground : SKSpriteNode!
     var highlightTile : SKTileGroup?
     var previousRow : Int!
     var previousColumn : Int!
@@ -55,6 +59,11 @@ class GameScene: SKScene {
         }
         self.highlightBackground = hlBackground
         
+        guard let ttBackground = childNode(withName: "tableTop")
+            as? SKSpriteNode else {
+                fatalError("Tabletop Background node not loaded")
+        }
+        self.tabletopBackground = ttBackground
         
         currentlyHeldPiece = nil
         playerTurn = PlayerColor.white
@@ -73,7 +82,14 @@ class GameScene: SKScene {
         turnLabel?.position = CGPoint(x: (-self.frame.size.width / 2) + (((turnLabel?.frame.size.width)! / 2) + 5), y: 198)
         cam?.addChild(turnLabel!)
         
+        let gesture=UIPinchGestureRecognizer(target: self, action: #selector(zoom(recognizer:)))
+        self.view!.addGestureRecognizer(gesture)
 
+        let maxAspectRatio:CGFloat=16.0/9.0
+        let playableHeight=size.width/maxAspectRatio
+        let playableMargin=(size.height-playableHeight)/2.0
+        playableRect=CGRect(x:0, y: playableMargin, width: size.width, height: playableHeight)
+    
         guard let tileSet = SKTileSet(named: "Highlight Tile Set") else {
             fatalError("Object Tiles Tile Set not found")
         }
@@ -177,24 +193,45 @@ class GameScene: SKScene {
     
     func panForTranslation(_ translation: CGPoint) {
         let position = (cam?.position)!
-        let aNewPosition = CGPoint(x: position.x - translation.x, y: position.y - translation.y)
-        cam?.position = aNewPosition
+        let posX = position.x - translation.x
+        let posY = position.y - translation.y
+        if testcamera(posX: posX, posY: posY){
+            let aNewPosition = CGPoint(x: position.x - translation.x, y: position.y - translation.y)
+            cam?.position = aNewPosition
+        }
+    }
+    
+    func zoom(recognizer: UIPinchGestureRecognizer){
+        if recognizer.state == .changed{
+            let savedScale=scaleNum
+            scaleNum=recognizer.scale
+            if scaleNum<1{
+                scaleNum=1
+            }
+            else if scaleNum>3{
+                scaleNum=3
+            }
+            if testcamera(posX: (self.cam?.position.x)!, posY: (self.cam?.position.y)!){
+                self.cam?.setScale(scaleNum)
+            }
+            else{
+                scaleNum=savedScale
+            }
+        }
+    }
+    
+    func testcamera(posX: CGFloat, posY: CGFloat)->Bool{
+        var cameraRect : CGRect {
+            let xx = posX - size.width/2*scaleNum
+            let yy = posY - playableRect.height/2*scaleNum
+            return CGRect(x: xx, y: yy, width: size.width*scaleNum, height: playableRect.height*scaleNum)
+        }
+        let backGroundRect=CGRect(x: boardBackground.position.x-boardBackground.frame.width/2, y: boardBackground.position.y-boardBackground.frame.height/2, width: boardBackground.frame.width, height: boardBackground.frame.height)
+
+        return backGroundRect.contains(cameraRect)
     }
     
     override func update(_ currentTime: TimeInterval) {
-//        if currentlyHeldPiece != nil {
-//            //currentlyHeldPiece?.position = location
-//            
-//            let column = boardBackground.tileColumnIndex(fromPosition: (currentlyHeldPiece?.position)!)
-//            let row = boardBackground.tileRowIndex(fromPosition: (currentlyHeldPiece?.position)!)
-//            
-//            if row != self.previousRow || column != self.previousColumn {
-//                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
-//                self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
-//                self.previousRow = row
-//                self.previousColumn = column
-//            }
-//            
-//        }
+
     }
 }
