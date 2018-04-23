@@ -54,36 +54,36 @@ class HVPlayer {
         case .white:
             
             xPosition = 675
-            tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider1.rawValue
-            tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider2.rawValue
-            tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt1.rawValue
-            tokenAnt2.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt2.rawValue
-            tokenAnt3.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt3.rawValue
-            tokenGrasshopper1.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper1.rawValue
-            tokenGrasshopper2.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper2.rawValue
-            tokenGrasshopper3.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper3.rawValue
-            tokenBeetle1.physicsBody?.categoryBitMask = CollisionCategory.whiteBeetle1.rawValue
-            tokenBeetle2.physicsBody?.categoryBitMask = CollisionCategory.whiteBeetle2.rawValue
-            tokenLadybug.physicsBody?.categoryBitMask = CollisionCategory.whiteLadybug.rawValue
-            tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.whiteMosquito.rawValue
-            tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.whiteQueenBee.rawValue
+//            tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider1.rawValue
+//            tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider2.rawValue
+//            tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt1.rawValue
+//            tokenAnt2.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt2.rawValue
+//            tokenAnt3.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt3.rawValue
+//            tokenGrasshopper1.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper1.rawValue
+//            tokenGrasshopper2.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper2.rawValue
+//            tokenGrasshopper3.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper3.rawValue
+//            tokenBeetle1.physicsBody?.categoryBitMask = CollisionCategory.whiteBeetle1.rawValue
+//            tokenBeetle2.physicsBody?.categoryBitMask = CollisionCategory.whiteBeetle2.rawValue
+//            tokenLadybug.physicsBody?.categoryBitMask = CollisionCategory.whiteLadybug.rawValue
+//            tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.whiteMosquito.rawValue
+//            tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.whiteQueenBee.rawValue
             
         case .black:
             
             xPosition = -675
-            tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.blackSpider1.rawValue
-            tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.blackSpider2.rawValue
-            tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.blackAnt1.rawValue
-            tokenAnt2.physicsBody?.categoryBitMask = CollisionCategory.blackAnt2.rawValue
-            tokenAnt3.physicsBody?.categoryBitMask = CollisionCategory.blackAnt3.rawValue
-            tokenGrasshopper1.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper1.rawValue
-            tokenGrasshopper2.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper2.rawValue
-            tokenGrasshopper3.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper3.rawValue
-            tokenBeetle1.physicsBody?.categoryBitMask = CollisionCategory.blackBeetle1.rawValue
-            tokenBeetle2.physicsBody?.categoryBitMask = CollisionCategory.blackBeetle2.rawValue
-            tokenLadybug.physicsBody?.categoryBitMask = CollisionCategory.blackLadybug.rawValue
-            tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.blackMosquito.rawValue
-            tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.blackQueenBee.rawValue
+//            tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.blackSpider1.rawValue
+//            tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.blackSpider2.rawValue
+//            tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.blackAnt1.rawValue
+//            tokenAnt2.physicsBody?.categoryBitMask = CollisionCategory.blackAnt2.rawValue
+//            tokenAnt3.physicsBody?.categoryBitMask = CollisionCategory.blackAnt3.rawValue
+//            tokenGrasshopper1.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper1.rawValue
+//            tokenGrasshopper2.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper2.rawValue
+//            tokenGrasshopper3.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper3.rawValue
+//            tokenBeetle1.physicsBody?.categoryBitMask = CollisionCategory.blackBeetle1.rawValue
+//            tokenBeetle2.physicsBody?.categoryBitMask = CollisionCategory.blackBeetle2.rawValue
+//            tokenLadybug.physicsBody?.categoryBitMask = CollisionCategory.blackLadybug.rawValue
+//            tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.blackMosquito.rawValue
+//            tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.blackQueenBee.rawValue
         case .neutral:
             xPosition = 0
         }
