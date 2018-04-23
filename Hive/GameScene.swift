@@ -108,6 +108,8 @@ class GameScene: SKScene {
     
         let touch : UITouch = touches.first!
         let location = touch.location(in: self)
+    
+        print("--> nodes \(self.nodes(at: location))")
         
         if playerTurn == .white {
             for token in (playerWhite?.tokens)! {

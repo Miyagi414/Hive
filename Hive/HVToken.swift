@@ -20,6 +20,8 @@ enum CollisionCategory : UInt32 {
 class HVToken : SKSpriteNode {
     
     var playerColor : PlayerColor
+    var isBlocked : Bool
+    var inPlay : Bool
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -27,6 +29,8 @@ class HVToken : SKSpriteNode {
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         self.playerColor = PlayerColor.white
+        self.isBlocked = false
+        self.inPlay = false
         super.init(texture: texture, color: color, size: (texture?.size())!)
     }
     
@@ -45,5 +49,10 @@ class HVToken : SKSpriteNode {
         //self.yScale = 5
         //self.physicsBody = SKPhysicsBody(rectangleOf: self.frame.size)
         //self.physicsBody?.contactTestBitMask = CollisionCategory.blackSpider1.rawValue | CollisionCategory.blackSpider2.rawValue | CollisionCategory.blackAnt1.rawValue | CollisionCategory.blackAnt2.rawValue | CollisionCategory.blackAnt3.rawValue | CollisionCategory.blackGrasshopper1.rawValue | CollisionCategory.blackGrasshopper2.rawValue | CollisionCategory.blackGrasshopper3.rawValue | CollisionCategory.blackBeetle1.rawValue | CollisionCategory.blackBeetle2.rawValue | CollisionCategory.blackLadybug.rawValue | CollisionCategory.blackMosquito.rawValue | CollisionCategory.blackQueenBee
+    }
+    
+    convenience init(imageNamed name: String, playerColor: PlayerColor, tokenName tName: String) {
+        self.init(imageNamed:name, playerColor:playerColor)
+        self.name = tName
     }
 }

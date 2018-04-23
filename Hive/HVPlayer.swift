@@ -36,19 +36,19 @@ class HVPlayer {
         self.init()
         self.playerColor = color
         
-        let tokenSpider1 = HVToken(imageNamed: (self.playerColor == .white ? "SpiderWhite" : "SpiderBlack"), playerColor: color)
-        let tokenSpider2 = HVToken(imageNamed: (self.playerColor == .white ? "SpiderWhite" : "SpiderBlack"), playerColor: color)
-        let tokenAnt1 = HVToken(imageNamed: (self.playerColor == .white ? "AntWhite" : "AntBlack"), playerColor: color)
-        let tokenAnt2 = HVToken(imageNamed: (self.playerColor == .white ? "AntWhite" : "AntBlack"), playerColor: color)
-        let tokenAnt3 = HVToken(imageNamed: (self.playerColor == .white ? "AntWhite" : "AntBlack"), playerColor: color)
-        let tokenGrasshopper1 = HVToken(imageNamed: (self.playerColor == .white ? "GrasshopperWhite" : "GrasshopperBlack"), playerColor: color)
-        let tokenGrasshopper2 = HVToken(imageNamed: (self.playerColor == .white ? "GrasshopperWhite" : "GrasshopperBlack"), playerColor: color)
-        let tokenGrasshopper3 = HVToken(imageNamed: (self.playerColor == .white ? "GrasshopperWhite" : "GrasshopperBlack"), playerColor: color)
-        let tokenBeetle1 = HVToken(imageNamed: (self.playerColor == .white ? "BeetleWhite" : "BeetleBlack"), playerColor: color)
-        let tokenBeetle2 = HVToken(imageNamed: (self.playerColor == .white ? "BeetleWhite" : "BeetleBlack"), playerColor: color)
-        let tokenLadybug = HVToken(imageNamed: (self.playerColor == .white ? "LadybugWhite" : "LadybugBlack"), playerColor: color)
-        let tokenMosquito = HVToken(imageNamed: (self.playerColor == .white ? "MosquitoWhite" : "MosquitoBlack"), playerColor: color)
-        let tokenQueenBee = HVToken(imageNamed: (self.playerColor == .white ? "QueenBeeWhite" : "QueenBeeBlack"), playerColor: color)
+        let tokenSpider1 = HVToken(imageNamed: (self.playerColor == .white ? "SpiderWhite" : "SpiderBlack"), playerColor: color, tokenName: "tokenSpider1")
+        let tokenSpider2 = HVToken(imageNamed: (self.playerColor == .white ? "SpiderWhite" : "SpiderBlack"), playerColor: color, tokenName: "tokenSpider2")
+        let tokenAnt1 = HVToken(imageNamed: (self.playerColor == .white ? "AntWhite" : "AntBlack"), playerColor: color, tokenName: "tokenAnt1")
+        let tokenAnt2 = HVToken(imageNamed: (self.playerColor == .white ? "AntWhite" : "AntBlack"), playerColor: color, tokenName: "tokenAnt2")
+        let tokenAnt3 = HVToken(imageNamed: (self.playerColor == .white ? "AntWhite" : "AntBlack"), playerColor: color, tokenName: "tokenAnt3")
+        let tokenGrasshopper1 = HVToken(imageNamed: (self.playerColor == .white ? "GrasshopperWhite" : "GrasshopperBlack"), playerColor: color, tokenName: "tokenGrasshopper1")
+        let tokenGrasshopper2 = HVToken(imageNamed: (self.playerColor == .white ? "GrasshopperWhite" : "GrasshopperBlack"), playerColor: color, tokenName: "tokenGrasshopper2")
+        let tokenGrasshopper3 = HVToken(imageNamed: (self.playerColor == .white ? "GrasshopperWhite" : "GrasshopperBlack"), playerColor: color, tokenName: "tokenGrasshopper3")
+        let tokenBeetle1 = HVToken(imageNamed: (self.playerColor == .white ? "BeetleWhite" : "BeetleBlack"), playerColor: color, tokenName: "tokenBeetle1")
+        let tokenBeetle2 = HVToken(imageNamed: (self.playerColor == .white ? "BeetleWhite" : "BeetleBlack"), playerColor: color, tokenName: "tokenBeetle2")
+        let tokenLadybug = HVToken(imageNamed: (self.playerColor == .white ? "LadybugWhite" : "LadybugBlack"), playerColor: color, tokenName: "tokenLadybug")
+        let tokenMosquito = HVToken(imageNamed: (self.playerColor == .white ? "MosquitoWhite" : "MosquitoBlack"), playerColor: color, tokenName: "tokenMosquito")
+        let tokenQueenBee = HVToken(imageNamed: (self.playerColor == .white ? "QueenBeeWhite" : "QueenBeeBlack"), playerColor: color, tokenName: "tokenQueenBee")
         
         switch self.playerColor {
         case .white:
