@@ -82,7 +82,7 @@ class GameScene: SKScene {
         self.camera?.addChild(whiteDrawer)
         
         currentlyHeldPiece = nil
-        playerTurn = PlayerColor.black
+        playerTurn = PlayerColor.white
         
         playerBlack = HVPlayer(color: PlayerColor.black)
         playerBlack?.addTokens(to: self)
@@ -123,17 +123,25 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
         let touch : UITouch = touches.first!
-        let location = touch.location(in: self)
+        let location = touch.location(in: self.camera!)
     
+        let nodes : [SKNode] = (self.camera?.nodes(at: location))!
+        
         print("Location: \(location)")
-        print("--> nodes \(self.camera?.nodes(at: location))")
+        print("--> nodes \(nodes)")
+        
         print(" ")
         if playerTurn == .white {
-            for token in (playerWhite?.tokens)! {
-                if token.contains(location) {
-                    currentlyHeldPiece = token
-                }
+            if let node = nodes[0] as? HVToken {
+                print("found HVToken")
+                currentlyHeldPiece = node
+                currentlyHeldPiece?.move(toParent: self)
             }
+//            for token in (playerWhite?.tokens)! {
+//                if token.contains(location) {
+//                    currentlyHeldPiece = token
+//                }
+//            }
         } else {
             for token in (playerBlack?.tokens)! {
                 if token.contains(location) {
