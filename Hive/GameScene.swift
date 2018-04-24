@@ -22,7 +22,7 @@ class GameScene: SKScene {
     
     var currentlyHeldPiece : HVToken?
     
-    var cam: SKCameraNode?
+//    var cam: SKCameraNode?
     var scaleNum: CGFloat=1
     
     var turnLabel : SKLabelNode?
@@ -34,24 +34,30 @@ class GameScene: SKScene {
     var highlightTile : SKTileGroup?
     var previousRow : Int!
     var previousColumn : Int!
+    var maxBoardRows : Int!
+    var maxBoardColumns : Int!
+    var whiteDrawer : SKSpriteNode!
+    
     
     override func didMove(to view: SKView) {
         
         previousRow = 0
         previousColumn = 0
         
-        cam = SKCameraNode()
+        let cam = childNode(withName: "camera") as! SKCameraNode?
         self.camera = cam
-        self.addChild(cam!)
+//        self.addChild(cam!)
         
         let zoomOutAction = SKAction.scale(to: 2, duration: 2)
-        cam?.run(zoomOutAction)
+        self.camera?.run(zoomOutAction)
         
         guard let boardBackground = childNode(withName: "boardBackground")
             as? SKTileMapNode else {
                 fatalError("Background node not loaded")
         }
         self.boardBackground = boardBackground
+        self.maxBoardRows = self.boardBackground.numberOfRows
+        self.maxBoardColumns = self.boardBackground.numberOfColumns
         
         guard let hlBackground = childNode(withName: "highlightBackground")
             as? SKTileMapNode else {
@@ -65,14 +71,24 @@ class GameScene: SKScene {
         }
         self.tabletopBackground = ttBackground
         
+        whiteDrawer = SKSpriteNode()
+        whiteDrawer.size = CGSize(width: self.frame.size.height, height: 150)
+        whiteDrawer.position = CGPoint(x: -self.frame.size.height/4, y: -self.frame.size.width / 2 + 165)
+        whiteDrawer.color = UIColor.red
+        whiteDrawer.xScale = 0.5
+        whiteDrawer.yScale = 0.5
+        whiteDrawer.anchorPoint = CGPoint(x: 0, y: 0)
+        
+        self.camera?.addChild(whiteDrawer)
+        
         currentlyHeldPiece = nil
-        playerTurn = PlayerColor.white
+        playerTurn = PlayerColor.black
         
         playerBlack = HVPlayer(color: PlayerColor.black)
         playerBlack?.addTokens(to: self)
         
         playerWhite = HVPlayer(color: PlayerColor.white)
-        playerWhite?.addTokens(to: self)
+        playerWhite?.addTokens(to: self.whiteDrawer)
         
         turnLabel = SKLabelNode()
         turnLabel?.text = String(format:"%@%@", "Player turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
@@ -80,7 +96,7 @@ class GameScene: SKScene {
         turnLabel?.fontName = "Helvetica Neue Bold"
         turnLabel?.fontColor = (playerTurn == PlayerColor.white ? UIColor.white : UIColor.black)
         turnLabel?.position = CGPoint(x: (-self.frame.size.width / 2) + (((turnLabel?.frame.size.width)! / 2) + 5), y: 198)
-        cam?.addChild(turnLabel!)
+        self.camera?.addChild(turnLabel!)
         
         let gesture=UIPinchGestureRecognizer(target: self, action: #selector(zoom(recognizer:)))
         self.view!.addGestureRecognizer(gesture)
@@ -109,8 +125,9 @@ class GameScene: SKScene {
         let touch : UITouch = touches.first!
         let location = touch.location(in: self)
     
-        print("--> nodes \(self.nodes(at: location))")
-        
+        print("Location: \(location)")
+        print("--> nodes \(self.camera?.nodes(at: location))")
+        print(" ")
         if playerTurn == .white {
             for token in (playerWhite?.tokens)! {
                 if token.contains(location) {
@@ -181,11 +198,16 @@ class GameScene: SKScene {
             let column = boardBackground.tileColumnIndex(fromPosition: position!)
             let row = boardBackground.tileRowIndex(fromPosition: position!)
             
-            let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
-            currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
+            if column >= 0 && column < self.maxBoardColumns && row >= 0 && row < self.maxBoardRows {
+                print("token dropped at row: \(row) column: \(column)")
+                let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
+                currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
+            } else {
+                currentlyHeldPiece?.position = CGPoint(x: 675, y: -325)
+            }
             currentlyHeldPiece?.zRotation = 0
             
-            currentlyHeldPiece?.zPosition = 1
+            currentlyHeldPiece?.zPosition = 0
             currentlyHeldPiece?.physicsBody?.isDynamic = false
         }
 
@@ -194,12 +216,12 @@ class GameScene: SKScene {
     }
     
     func panForTranslation(_ translation: CGPoint) {
-        let position = (cam?.position)!
+        let position = (self.camera?.position)!
         let posX = position.x - translation.x
         let posY = position.y - translation.y
         if testcamera(posX: posX, posY: posY){
             let aNewPosition = CGPoint(x: position.x - translation.x, y: position.y - translation.y)
-            cam?.position = aNewPosition
+            self.camera?.position = aNewPosition
         }
     }
     
@@ -213,8 +235,8 @@ class GameScene: SKScene {
             else if scaleNum>3{
                 scaleNum=3
             }
-            if testcamera(posX: (self.cam?.position.x)!, posY: (self.cam?.position.y)!){
-                self.cam?.setScale(scaleNum)
+            if testcamera(posX: (self.camera!.position.x), posY: (self.camera!.position.y)){
+                self.camera?.setScale(scaleNum)
             }
             else{
                 scaleNum=savedScale
@@ -228,7 +250,7 @@ class GameScene: SKScene {
             let yy = posY - playableRect.height/2*scaleNum
             return CGRect(x: xx, y: yy, width: size.width*scaleNum, height: playableRect.height*scaleNum)
         }
-        let backGroundRect=CGRect(x: boardBackground.position.x-boardBackground.frame.width/2, y: boardBackground.position.y-boardBackground.frame.height/2, width: boardBackground.frame.width, height: boardBackground.frame.height)
+        let backGroundRect=CGRect(x: tabletopBackground.position.x-tabletopBackground.frame.width/2, y: tabletopBackground.position.y-tabletopBackground.frame.height/2, width: tabletopBackground.frame.width, height: tabletopBackground.frame.height)
 
         return backGroundRect.contains(cameraRect)
     }

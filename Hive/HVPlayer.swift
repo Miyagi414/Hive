@@ -89,29 +89,45 @@ class HVPlayer {
         }
         
         
-        tokenSpider1.position = CGPoint(x: xPosition, y: 325)
-        tokenSpider2.position = CGPoint(x: xPosition, y: 325)
-        tokenAnt1.position = CGPoint(x: xPosition, y: 197)
-        tokenAnt2.position = CGPoint(x: xPosition, y: 197)
-        tokenAnt3.position = CGPoint(x: xPosition, y: 197)
-        tokenGrasshopper1.position = CGPoint(x: xPosition, y: 69)
-        tokenGrasshopper2.position = CGPoint(x: xPosition, y: 69)
-        tokenGrasshopper3.position = CGPoint(x: xPosition, y: 69)
-        tokenBeetle1.position = CGPoint(x: xPosition, y: -69)
-        tokenBeetle2.position = CGPoint(x: xPosition, y: -69)
-        tokenLadybug.position = CGPoint(x: xPosition, y: -197)
-        tokenMosquito.position = CGPoint(x: xPosition, y: -325)
+//        tokenSpider1.position = CGPoint(x: xPosition, y: 325)
+//        tokenSpider2.position = CGPoint(x: xPosition, y: 325)
+//        tokenAnt1.position = CGPoint(x: xPosition, y: 197)
+//        tokenAnt2.position = CGPoint(x: xPosition, y: 197)
+//        tokenAnt3.position = CGPoint(x: xPosition, y: 197)
+//        tokenGrasshopper1.position = CGPoint(x: xPosition, y: 69)
+//        tokenGrasshopper2.position = CGPoint(x: xPosition, y: 69)
+//        tokenGrasshopper3.position = CGPoint(x: xPosition, y: 69)
+//        tokenBeetle1.position = CGPoint(x: xPosition, y: -69)
+//        tokenBeetle2.position = CGPoint(x: xPosition, y: -69)
+//        tokenLadybug.position = CGPoint(x: xPosition, y: -197)
+//        tokenMosquito.position = CGPoint(x: xPosition, y: -325)
+//        
+//        switch self.playerColor {
+//        case .white:
+//            xPosition -= 150
+//        case .black:
+//            xPosition += 150
+//        case .neutral:
+//            break
+//        }
+//        
+//        tokenQueenBee.position = CGPoint(x: xPosition, y: 0)
         
-        switch self.playerColor {
-        case .white:
-            xPosition -= 150
-        case .black:
-            xPosition += 150
-        case .neutral:
-            break
-        }
         
-        tokenQueenBee.position = CGPoint(x: xPosition, y: 0)
+        tokenSpider1.position = CGPoint(x: 135, y: 75)
+        tokenSpider2.position = CGPoint(x: 145, y: 75)
+        tokenAnt1.position = CGPoint(x: 283, y: 75)
+        tokenAnt2.position = CGPoint(x: 293, y: 75)
+        tokenAnt3.position = CGPoint(x: 303, y: 75)
+        tokenGrasshopper1.position = CGPoint(x: 441, y: 75)
+        tokenGrasshopper2.position = CGPoint(x: 451, y: 75)
+        tokenGrasshopper3.position = CGPoint(x: 461, y: 75)
+        tokenBeetle1.position = CGPoint(x: 599, y: 75)
+        tokenBeetle2.position = CGPoint(x: 609, y: 75)
+        tokenLadybug.position = CGPoint(x: 747, y: 75)
+        tokenMosquito.position = CGPoint(x: 885, y: 75)
+        tokenQueenBee.position = CGPoint(x: 1033, y: 75)
+
         
         self.tokens = [ tokenSpider1, tokenSpider2, tokenAnt1, tokenAnt2, tokenAnt3, tokenGrasshopper1, tokenGrasshopper2, tokenGrasshopper3, tokenBeetle1, tokenBeetle2, tokenLadybug, tokenMosquito, tokenQueenBee ]
     }
