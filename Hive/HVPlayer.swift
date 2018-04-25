@@ -33,7 +33,6 @@ class HVPlayer {
     }
     
     convenience init(color:PlayerColor) {
-//        var xPosition : CGFloat
         
         self.init()
         self.playerColor = color
@@ -52,99 +51,34 @@ class HVPlayer {
         let tokenMosquito = HVToken(imageNamed: (self.playerColor == .white ? "MosquitoWhite" : "MosquitoBlack"), playerColor: color, tokenName: "tokenMosquito")
         let tokenQueenBee = HVToken(imageNamed: (self.playerColor == .white ? "QueenBeeWhite" : "QueenBeeBlack"), playerColor: color, tokenName: "tokenQueenBee")
         
-//        switch self.playerColor {
-//        case .white:
-//            
-//            xPosition = 675
-//            tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider1.rawValue
-//            tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider2.rawValue
-//            tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt1.rawValue
-//            tokenAnt2.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt2.rawValue
-//            tokenAnt3.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt3.rawValue
-//            tokenGrasshopper1.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper1.rawValue
-//            tokenGrasshopper2.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper2.rawValue
-//            tokenGrasshopper3.physicsBody?.categoryBitMask = CollisionCategory.whiteGrasshopper3.rawValue
-//            tokenBeetle1.physicsBody?.categoryBitMask = CollisionCategory.whiteBeetle1.rawValue
-//            tokenBeetle2.physicsBody?.categoryBitMask = CollisionCategory.whiteBeetle2.rawValue
-//            tokenLadybug.physicsBody?.categoryBitMask = CollisionCategory.whiteLadybug.rawValue
-//            tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.whiteMosquito.rawValue
-//            tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.whiteQueenBee.rawValue
-            
-//        case .black:
-        
-//            xPosition = -675
-//            tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.blackSpider1.rawValue
-//            tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.blackSpider2.rawValue
-//            tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.blackAnt1.rawValue
-//            tokenAnt2.physicsBody?.categoryBitMask = CollisionCategory.blackAnt2.rawValue
-//            tokenAnt3.physicsBody?.categoryBitMask = CollisionCategory.blackAnt3.rawValue
-//            tokenGrasshopper1.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper1.rawValue
-//            tokenGrasshopper2.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper2.rawValue
-//            tokenGrasshopper3.physicsBody?.categoryBitMask = CollisionCategory.blackGrasshopper3.rawValue
-//            tokenBeetle1.physicsBody?.categoryBitMask = CollisionCategory.blackBeetle1.rawValue
-//            tokenBeetle2.physicsBody?.categoryBitMask = CollisionCategory.blackBeetle2.rawValue
-//            tokenLadybug.physicsBody?.categoryBitMask = CollisionCategory.blackLadybug.rawValue
-//            tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.blackMosquito.rawValue
-//            tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.blackQueenBee.rawValue
-//        case .neutral:
-//            xPosition = 0
-//            break
-//        }
+        tokenSpider1.position = CGPoint(x: 215, y: 75)
+        tokenSpider2.position = CGPoint(x: 225, y: 75)
+        tokenAnt1.position = CGPoint(x: 363, y: 75)
+        tokenAnt2.position = CGPoint(x: 373, y: 75)
+        tokenAnt3.position = CGPoint(x: 383, y: 75)
+        tokenGrasshopper1.position = CGPoint(x: 521, y: 75)
+        tokenGrasshopper2.position = CGPoint(x: 531, y: 75)
+        tokenGrasshopper3.position = CGPoint(x: 541, y: 75)
+        tokenBeetle1.position = CGPoint(x: 679, y: 75)
+        tokenBeetle2.position = CGPoint(x: 689, y: 75)
+        tokenLadybug.position = CGPoint(x: 827, y: 75)
+        tokenMosquito.position = CGPoint(x: 965, y: 75)
+        tokenQueenBee.position = CGPoint(x: 1113, y: 75)
         
         
-//        tokenSpider1.position = CGPoint(x: xPosition, y: 325)
-//        tokenSpider2.position = CGPoint(x: xPosition, y: 325)
-//        tokenAnt1.position = CGPoint(x: xPosition, y: 197)
-//        tokenAnt2.position = CGPoint(x: xPosition, y: 197)
-//        tokenAnt3.position = CGPoint(x: xPosition, y: 197)
-//        tokenGrasshopper1.position = CGPoint(x: xPosition, y: 69)
-//        tokenGrasshopper2.position = CGPoint(x: xPosition, y: 69)
-//        tokenGrasshopper3.position = CGPoint(x: xPosition, y: 69)
-//        tokenBeetle1.position = CGPoint(x: xPosition, y: -69)
-//        tokenBeetle2.position = CGPoint(x: xPosition, y: -69)
-//        tokenLadybug.position = CGPoint(x: xPosition, y: -197)
-//        tokenMosquito.position = CGPoint(x: xPosition, y: -325)
-//        
-//        switch self.playerColor {
-//        case .white:
-//            xPosition -= 150
-//        case .black:
-//            xPosition += 150
-//        case .neutral:
-//            break
-//        }
-//        
-//        tokenQueenBee.position = CGPoint(x: xPosition, y: 0)
-
-        
-        tokenSpider1.position = CGPoint(x: 135, y: 75)
-        tokenSpider2.position = CGPoint(x: 145, y: 75)
-        tokenAnt1.position = CGPoint(x: 283, y: 75)
-        tokenAnt2.position = CGPoint(x: 293, y: 75)
-        tokenAnt3.position = CGPoint(x: 303, y: 75)
-        tokenGrasshopper1.position = CGPoint(x: 441, y: 75)
-        tokenGrasshopper2.position = CGPoint(x: 451, y: 75)
-        tokenGrasshopper3.position = CGPoint(x: 461, y: 75)
-        tokenBeetle1.position = CGPoint(x: 599, y: 75)
-        tokenBeetle2.position = CGPoint(x: 609, y: 75)
-        tokenLadybug.position = CGPoint(x: 747, y: 75)
-        tokenMosquito.position = CGPoint(x: 885, y: 75)
-        tokenQueenBee.position = CGPoint(x: 1033, y: 75)
-        
-        
-        tokenSpider1.setInitial(point: CGPoint(x: 135, y: 75))
-        tokenSpider2.setInitial(point: CGPoint(x: 145, y: 75))
-        tokenAnt1.setInitial(point: CGPoint(x: 283, y: 75))
-        tokenAnt2.setInitial(point: CGPoint(x: 293, y: 75))
-        tokenAnt3.setInitial(point: CGPoint(x: 303, y: 75))
-        tokenGrasshopper1.setInitial(point: CGPoint(x: 441, y: 75))
-        tokenGrasshopper2.setInitial(point: CGPoint(x: 451, y: 75))
-        tokenGrasshopper3.setInitial(point: CGPoint(x: 461, y: 75))
-        tokenBeetle1.setInitial(point: CGPoint(x: 599, y: 75))
-        tokenBeetle2.setInitial(point: CGPoint(x: 609, y: 75))
-        tokenLadybug.setInitial(point: CGPoint(x: 747, y: 75))
-        tokenMosquito.setInitial(point: CGPoint(x: 885, y: 75))
-        tokenQueenBee.setInitial(point: CGPoint(x: 1033, y: 75))
+        tokenSpider1.setInitial(point: CGPoint(x: 215, y: 75))
+        tokenSpider2.setInitial(point: CGPoint(x: 225, y: 75))
+        tokenAnt1.setInitial(point: CGPoint(x: 363, y: 75))
+        tokenAnt2.setInitial(point: CGPoint(x: 373, y: 75))
+        tokenAnt3.setInitial(point: CGPoint(x: 383, y: 75))
+        tokenGrasshopper1.setInitial(point: CGPoint(x: 521, y: 75))
+        tokenGrasshopper2.setInitial(point: CGPoint(x: 531, y: 75))
+        tokenGrasshopper3.setInitial(point: CGPoint(x: 541, y: 75))
+        tokenBeetle1.setInitial(point: CGPoint(x: 679, y: 75))
+        tokenBeetle2.setInitial(point: CGPoint(x: 689, y: 75))
+        tokenLadybug.setInitial(point: CGPoint(x: 827, y: 75))
+        tokenMosquito.setInitial(point: CGPoint(x: 965, y: 75))
+        tokenQueenBee.setInitial(point: CGPoint(x: 1113, y: 75))
 
 
         
