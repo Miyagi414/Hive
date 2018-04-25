@@ -161,8 +161,8 @@ class GameScene: SKScene {
         
         if currentlyHeldPiece != nil {
             currentlyHeldPiece?.position = location
-//            currentlyHeldPiece?.zPosition = 100
-            currentlyHeldPiece?.physicsBody?.isDynamic = true
+            currentlyHeldPiece?.zPosition = 1000
+//            currentlyHeldPiece?.physicsBody?.isDynamic = true
         }
 
     }
@@ -235,8 +235,8 @@ class GameScene: SKScene {
             }
             currentlyHeldPiece?.zRotation = 0
             
-//            currentlyHeldPiece?.zPosition = 0
-            currentlyHeldPiece?.physicsBody?.isDynamic = false
+            currentlyHeldPiece?.zPosition = 0
+//            currentlyHeldPiece?.physicsBody?.isDynamic = false
         }
 
         currentlyHeldPiece = nil
