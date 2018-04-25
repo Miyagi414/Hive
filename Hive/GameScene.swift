@@ -9,11 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-//struct physicsCategory {
-//    static let blackSpider1 : UInt32 = 0x1 << 1
-//    static let blackSpider2 : UInt32 = 0x1 << 2
-//}
-
 
 class GameScene: SKScene {
     
@@ -22,7 +17,6 @@ class GameScene: SKScene {
     
     var currentlyHeldPiece : HVToken?
     
-//    var cam: SKCameraNode?
     var scaleNum: CGFloat=1
     
     var turnLabel : SKLabelNode?
@@ -46,7 +40,6 @@ class GameScene: SKScene {
         
         let cam = childNode(withName: "camera") as! SKCameraNode?
         self.camera = cam
-//        self.addChild(cam!)
         
         let zoomOutAction = SKAction.scale(to: 2, duration: 2)
         self.camera?.run(zoomOutAction)
@@ -70,16 +63,6 @@ class GameScene: SKScene {
                 fatalError("Tabletop Background node not loaded")
         }
         self.tabletopBackground = ttBackground
-        
-//        whiteDrawer = SKSpriteNode()
-//        whiteDrawer.size = CGSize(width: self.frame.size.height, height: 150)
-//        whiteDrawer.position = CGPoint(x: -self.frame.size.height/4, y: -self.frame.size.width / 2 + 165)
-//        whiteDrawer.color = UIColor.red
-//        whiteDrawer.xScale = 0.5
-//        whiteDrawer.yScale = 0.5
-//        whiteDrawer.anchorPoint = CGPoint(x: 0, y: 0)
-        
-//        self.camera?.addChild(whiteDrawer)
         
         currentlyHeldPiece = nil
         playerTurn = PlayerColor.white
@@ -136,33 +119,18 @@ class GameScene: SKScene {
         print("--> nodes \(nodes)")
         
         print(" ")
-//        if playerTurn == .white {
             for node in nodes {
                 if  let token = node as? HVToken {
                     print("found HVToken")
                     currentlyHeldPiece = token
-                    currentlyHeldPiece?.move(toParent: self)
+//                    currentlyHeldPiece?.move(toParent: self)
                     break
                 }
             }
-           
-//            for token in (playerWhite?.tokens)! {
-//                if token.contains(location) {
-//                    currentlyHeldPiece = token
-//                }
-//            }
-//        } else {
-//            for token in (playerBlack?.tokens)! {
-//                if token.contains(location) {
-//                    currentlyHeldPiece = token
-//                }
-//            }
-//        }
         
         if currentlyHeldPiece != nil {
-            currentlyHeldPiece?.position = location
+//            currentlyHeldPiece?.position = location
             currentlyHeldPiece?.zPosition = 1000
-//            currentlyHeldPiece?.physicsBody?.isDynamic = true
         }
 
     }
@@ -173,6 +141,7 @@ class GameScene: SKScene {
         let location = touch.location(in: self)
         
         if currentlyHeldPiece != nil {
+            currentlyHeldPiece?.move(toParent: self)
             currentlyHeldPiece?.position = location
             
             let column = boardBackground.tileColumnIndex(fromPosition: location)
@@ -236,7 +205,6 @@ class GameScene: SKScene {
             currentlyHeldPiece?.zRotation = 0
             
             currentlyHeldPiece?.zPosition = 0
-//            currentlyHeldPiece?.physicsBody?.isDynamic = false
         }
 
         currentlyHeldPiece = nil
