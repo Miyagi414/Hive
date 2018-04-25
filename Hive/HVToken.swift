@@ -22,6 +22,7 @@ class HVToken : SKSpriteNode {
     var playerColor : PlayerColor
     var isBlocked : Bool
     var inPlay : Bool
+    var initialPosition : CGPoint
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -31,6 +32,7 @@ class HVToken : SKSpriteNode {
         self.playerColor = PlayerColor.white
         self.isBlocked = false
         self.inPlay = false
+        self.initialPosition = CGPoint.zero
         super.init(texture: texture, color: color, size: (texture?.size())!)
     }
     
@@ -39,7 +41,7 @@ class HVToken : SKSpriteNode {
         self.init(texture: texture, color: UIColor.clear, size:(texture.size()) )
         
         self.playerColor = playerColor
-        self.zPosition = 3
+//        self.zPosition = 3
         
         self.physicsBody = SKPhysicsBody(texture: self.texture!, alphaThreshold: 0.1, size: self.frame.size)
         self.physicsBody?.affectedByGravity = false
@@ -54,5 +56,13 @@ class HVToken : SKSpriteNode {
     convenience init(imageNamed name: String, playerColor: PlayerColor, tokenName tName: String) {
         self.init(imageNamed:name, playerColor:playerColor)
         self.name = tName
+    }
+    
+    func setInitial(point: CGPoint) {
+        self.initialPosition = point
+    }
+    
+    func resetPosition() {
+        self.position = self.initialPosition
     }
 }

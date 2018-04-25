@@ -90,12 +90,17 @@ class GameScene: SKScene {
         playerWhite = HVPlayer(color: PlayerColor.white)
         playerWhite?.addTokens(to: self.camera!, on: self)
         
+        
+        playerBlack?.hideDrawer()
+        playerWhite?.showDrawer()
+        
         turnLabel = SKLabelNode()
         turnLabel?.text = String(format:"%@%@", "Player turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
         turnLabel?.fontSize = 12
         turnLabel?.fontName = "Helvetica Neue Bold"
         turnLabel?.fontColor = (playerTurn == PlayerColor.white ? UIColor.white : UIColor.black)
         turnLabel?.position = CGPoint(x: (-self.frame.size.width / 2) + (((turnLabel?.frame.size.width)! / 2) + 5), y: 198)
+        turnLabel?.zPosition = 100
         self.camera?.addChild(turnLabel!)
         
         let gesture=UIPinchGestureRecognizer(target: self, action: #selector(zoom(recognizer:)))
@@ -131,7 +136,7 @@ class GameScene: SKScene {
         print("--> nodes \(nodes)")
         
         print(" ")
-        if playerTurn == .white {
+//        if playerTurn == .white {
             for node in nodes {
                 if  let token = node as? HVToken {
                     print("found HVToken")
@@ -146,17 +151,17 @@ class GameScene: SKScene {
 //                    currentlyHeldPiece = token
 //                }
 //            }
-        } else {
-            for token in (playerBlack?.tokens)! {
-                if token.contains(location) {
-                    currentlyHeldPiece = token
-                }
-            }
-        }
+//        } else {
+//            for token in (playerBlack?.tokens)! {
+//                if token.contains(location) {
+//                    currentlyHeldPiece = token
+//                }
+//            }
+//        }
         
         if currentlyHeldPiece != nil {
             currentlyHeldPiece?.position = location
-            currentlyHeldPiece?.zPosition = 100
+//            currentlyHeldPiece?.zPosition = 100
             currentlyHeldPiece?.physicsBody?.isDynamic = true
         }
 
@@ -193,12 +198,6 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         if currentlyHeldPiece != nil {
-//            if playerTurn == .white {
-//                playerTurn = .black
-//            } else {
-//                playerTurn = .white
-//            }
-            
             self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
             self.previousColumn = 0
             self.previousRow = 0
@@ -214,12 +213,29 @@ class GameScene: SKScene {
                 print("token dropped at row: \(row) column: \(column)")
                 let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
                 currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
+                currentlyHeldPiece?.setInitial(point: CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3))
+                
+                if playerTurn == .white {
+                    playerTurn = .black
+                    playerWhite?.hideDrawer()
+                    playerBlack?.showDrawer()
+                } else {
+                    playerTurn = .white
+                    playerBlack?.hideDrawer()
+                    playerWhite?.showDrawer()
+                }
             } else {
-                currentlyHeldPiece?.position = CGPoint(x: 675, y: -325)
+                if playerTurn == .white {
+                    currentlyHeldPiece?.move(toParent: (playerWhite?.drawer)!)
+                } else {
+                    currentlyHeldPiece?.move(toParent: (playerBlack?.drawer)!)
+                }
+                
+                currentlyHeldPiece?.resetPosition()
             }
             currentlyHeldPiece?.zRotation = 0
             
-            currentlyHeldPiece?.zPosition = 0
+//            currentlyHeldPiece?.zPosition = 0
             currentlyHeldPiece?.physicsBody?.isDynamic = false
         }
 

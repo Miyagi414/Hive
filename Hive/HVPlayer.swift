@@ -33,7 +33,7 @@ class HVPlayer {
     }
     
     convenience init(color:PlayerColor) {
-        var xPosition : CGFloat
+//        var xPosition : CGFloat
         
         self.init()
         self.playerColor = color
@@ -55,7 +55,7 @@ class HVPlayer {
         switch self.playerColor {
         case .white:
             
-            xPosition = 675
+//            xPosition = 675
             tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider1.rawValue
             tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.whiteSpider2.rawValue
             tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.whiteAnt1.rawValue
@@ -72,7 +72,7 @@ class HVPlayer {
             
         case .black:
             
-            xPosition = -675
+//            xPosition = -675
             tokenSpider1.physicsBody?.categoryBitMask = CollisionCategory.blackSpider1.rawValue
             tokenSpider2.physicsBody?.categoryBitMask = CollisionCategory.blackSpider2.rawValue
             tokenAnt1.physicsBody?.categoryBitMask = CollisionCategory.blackAnt1.rawValue
@@ -87,7 +87,8 @@ class HVPlayer {
             tokenMosquito.physicsBody?.categoryBitMask = CollisionCategory.blackMosquito.rawValue
             tokenQueenBee.physicsBody?.categoryBitMask = CollisionCategory.blackQueenBee.rawValue
         case .neutral:
-            xPosition = 0
+//            xPosition = 0
+            break
         }
         
         
@@ -129,6 +130,22 @@ class HVPlayer {
         tokenLadybug.position = CGPoint(x: 747, y: 75)
         tokenMosquito.position = CGPoint(x: 885, y: 75)
         tokenQueenBee.position = CGPoint(x: 1033, y: 75)
+        
+        
+        tokenSpider1.setInitial(point: CGPoint(x: 135, y: 75))
+        tokenSpider2.setInitial(point: CGPoint(x: 145, y: 75))
+        tokenAnt1.setInitial(point: CGPoint(x: 283, y: 75))
+        tokenAnt2.setInitial(point: CGPoint(x: 293, y: 75))
+        tokenAnt3.setInitial(point: CGPoint(x: 303, y: 75))
+        tokenGrasshopper1.setInitial(point: CGPoint(x: 441, y: 75))
+        tokenGrasshopper2.setInitial(point: CGPoint(x: 451, y: 75))
+        tokenGrasshopper3.setInitial(point: CGPoint(x: 461, y: 75))
+        tokenBeetle1.setInitial(point: CGPoint(x: 599, y: 75))
+        tokenBeetle2.setInitial(point: CGPoint(x: 609, y: 75))
+        tokenLadybug.setInitial(point: CGPoint(x: 747, y: 75))
+        tokenMosquito.setInitial(point: CGPoint(x: 885, y: 75))
+        tokenQueenBee.setInitial(point: CGPoint(x: 1033, y: 75))
+
 
         
         self.tokens = [ tokenSpider1, tokenSpider2, tokenAnt1, tokenAnt2, tokenAnt3, tokenGrasshopper1, tokenGrasshopper2, tokenGrasshopper3, tokenBeetle1, tokenBeetle2, tokenLadybug, tokenMosquito, tokenQueenBee ]
@@ -139,7 +156,7 @@ class HVPlayer {
         
         self.drawer.size = CGSize(width: scene.frame.size.height, height: 150)
         self.drawer.position = CGPoint(x: -scene.frame.size.height/4, y: -scene.frame.size.width / 2 + 165)
-        
+        self.drawer.zPosition = 100
         self.drawer.xScale = 0.5
         self.drawer.yScale = 0.5
         self.drawer.anchorPoint = CGPoint(x: 0, y: 0)
@@ -160,6 +177,14 @@ class HVPlayer {
         for token in self.tokens {
             self.drawer.addChild(token)
         }
+    }
+    
+    func hideDrawer() {
+        self.drawer.alpha = 0
+    }
+    
+    func showDrawer() {
+        self.drawer.alpha = 1
     }
 }
 
