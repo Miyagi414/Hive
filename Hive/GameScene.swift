@@ -71,24 +71,24 @@ class GameScene: SKScene {
         }
         self.tabletopBackground = ttBackground
         
-        whiteDrawer = SKSpriteNode()
-        whiteDrawer.size = CGSize(width: self.frame.size.height, height: 150)
-        whiteDrawer.position = CGPoint(x: -self.frame.size.height/4, y: -self.frame.size.width / 2 + 165)
-        whiteDrawer.color = UIColor.red
-        whiteDrawer.xScale = 0.5
-        whiteDrawer.yScale = 0.5
-        whiteDrawer.anchorPoint = CGPoint(x: 0, y: 0)
+//        whiteDrawer = SKSpriteNode()
+//        whiteDrawer.size = CGSize(width: self.frame.size.height, height: 150)
+//        whiteDrawer.position = CGPoint(x: -self.frame.size.height/4, y: -self.frame.size.width / 2 + 165)
+//        whiteDrawer.color = UIColor.red
+//        whiteDrawer.xScale = 0.5
+//        whiteDrawer.yScale = 0.5
+//        whiteDrawer.anchorPoint = CGPoint(x: 0, y: 0)
         
-        self.camera?.addChild(whiteDrawer)
+//        self.camera?.addChild(whiteDrawer)
         
         currentlyHeldPiece = nil
         playerTurn = PlayerColor.white
         
         playerBlack = HVPlayer(color: PlayerColor.black)
-        playerBlack?.addTokens(to: self)
+        playerBlack?.addTokens(to: self.camera!, on: self)
         
         playerWhite = HVPlayer(color: PlayerColor.white)
-        playerWhite?.addTokens(to: self.whiteDrawer)
+        playerWhite?.addTokens(to: self.camera!, on: self)
         
         turnLabel = SKLabelNode()
         turnLabel?.text = String(format:"%@%@", "Player turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
@@ -132,11 +132,15 @@ class GameScene: SKScene {
         
         print(" ")
         if playerTurn == .white {
-            if let node = nodes[0] as? HVToken {
-                print("found HVToken")
-                currentlyHeldPiece = node
-                currentlyHeldPiece?.move(toParent: self)
+            for node in nodes {
+                if  let token = node as? HVToken {
+                    print("found HVToken")
+                    currentlyHeldPiece = token
+                    currentlyHeldPiece?.move(toParent: self)
+                    break
+                }
             }
+           
 //            for token in (playerWhite?.tokens)! {
 //                if token.contains(location) {
 //                    currentlyHeldPiece = token
@@ -189,11 +193,11 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         if currentlyHeldPiece != nil {
-            if playerTurn == .white {
-                playerTurn = .black
-            } else {
-                playerTurn = .white
-            }
+//            if playerTurn == .white {
+//                playerTurn = .black
+//            } else {
+//                playerTurn = .white
+//            }
             
             self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
             self.previousColumn = 0

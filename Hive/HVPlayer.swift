@@ -21,9 +21,11 @@ class HVPlayer {
     
     var tokens: [HVToken] = []
     var playerColor : PlayerColor
+    var drawer : SKSpriteNode!
     
     init() {
         self.playerColor = PlayerColor.neutral
+        self.drawer = SKSpriteNode()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -112,7 +114,7 @@ class HVPlayer {
 //        }
 //        
 //        tokenQueenBee.position = CGPoint(x: xPosition, y: 0)
-        
+
         
         tokenSpider1.position = CGPoint(x: 135, y: 75)
         tokenSpider2.position = CGPoint(x: 145, y: 75)
@@ -132,9 +134,31 @@ class HVPlayer {
         self.tokens = [ tokenSpider1, tokenSpider2, tokenAnt1, tokenAnt2, tokenAnt3, tokenGrasshopper1, tokenGrasshopper2, tokenGrasshopper3, tokenBeetle1, tokenBeetle2, tokenLadybug, tokenMosquito, tokenQueenBee ]
     }
     
-    func addTokens(to node:SKNode) {
+    func addTokens(to node:SKNode, on scene:SKNode) {
+        
+        
+        self.drawer.size = CGSize(width: scene.frame.size.height, height: 150)
+        self.drawer.position = CGPoint(x: -scene.frame.size.height/4, y: -scene.frame.size.width / 2 + 165)
+        
+        self.drawer.xScale = 0.5
+        self.drawer.yScale = 0.5
+        self.drawer.anchorPoint = CGPoint(x: 0, y: 0)
+        
+        switch self.playerColor {
+        case .white:
+            self.drawer.color = UIColor.black
+        case .black:
+            self.drawer.color = UIColor.white
+        case .neutral:
+            self.drawer.color = UIColor.clear
+            break
+        }
+
+        
+        node.addChild(self.drawer)
+        
         for token in self.tokens {
-            node.addChild(token)
+            self.drawer.addChild(token)
         }
     }
 }
