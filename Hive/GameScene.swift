@@ -26,18 +26,19 @@ class GameScene: SKScene {
     var boardBackground:SKTileMapNode!
     var highlightBackground : SKTileMapNode!
     var tabletopBackground : SKSpriteNode!
+    var greenHighlightTile : SKTileGroup?
     var highlightTile : SKTileGroup?
     var previousRow : Int!
     var previousColumn : Int!
     var maxBoardRows : Int!
     var maxBoardColumns : Int!
-    var whiteDrawer : SKSpriteNode!
+//    var whiteDrawer : SKSpriteNode!
     
     
     override func didMove(to view: SKView) {
         
-        previousRow = 0
-        previousColumn = 0
+        previousRow = -1
+        previousColumn = -1
         
         let cam = childNode(withName: "camera") as! SKCameraNode?
         self.camera = cam
@@ -97,10 +98,7 @@ class GameScene: SKScene {
         let playableMargin=(size.height-playableHeight)/2.0
         playableRect=CGRect(x:0, y: playableMargin, width: size.width, height: playableHeight)
     
-//        guard let tileSet = SKTileSet(named: "Highlight Tile Set") else {
-//            fatalError("Object Tiles Tile Set not found")
-//        }
-        guard let tileSet = SKTileSet(named: "startHighlightTileSet") else {
+        guard let tileSet = SKTileSet(named: "Highlight Tile Set") else {
             fatalError("Object Tiles Tile Set not found")
         }
 
@@ -111,6 +109,19 @@ class GameScene: SKScene {
         }
         
         self.highlightTile = hlTile
+        
+        
+        guard let greenTileSet = SKTileSet(named: "gHighlightTileSet") else {
+            fatalError("Object Tiles Tile Set not found")
+        }
+        
+        let greenTileGroups = greenTileSet.tileGroups
+        
+        guard let gHlTile = greenTileGroups.first else {
+            fatalError("No Highlight tile definition found")
+        }
+        
+        self.greenHighlightTile = gHlTile
         
     }
     
@@ -138,6 +149,8 @@ class GameScene: SKScene {
 //                    print("found HVToken")
                     currentlyHeldPiece = token
                     currentlyHeldPiece?.zPosition = 1000
+                    print(" token original position - row: \((currentlyHeldPiece?.row)!)   column: \((currentlyHeldPiece?.column)!)")
+                    self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
 //                    currentlyHeldPiece?.move(toParent: self)
                     break
                 }
@@ -163,10 +176,13 @@ class GameScene: SKScene {
             let row = boardBackground.tileRowIndex(fromPosition: location)
             
             if row != self.previousRow || column != self.previousColumn {
-                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
-                self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
-                self.previousRow = row
-                self.previousColumn = column
+//                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
+//                if self.highlightBackground.tileGroup(atColumn: column, row: row) == nil {
+//                    self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
+//                    self.previousRow = row
+//                    self.previousColumn = column
+//                }
+                
             }
             
         } else {
@@ -195,6 +211,8 @@ class GameScene: SKScene {
                 let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
                 currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
                 currentlyHeldPiece?.setInitial(point: CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3))
+                currentlyHeldPiece?.row = row
+                currentlyHeldPiece?.column = column
                 
                 engine?.switchPlayers()
                 turnLabel?.fontColor = (self.engine?.activeColor() == PlayerColor.white ? UIColor.white : UIColor.black)

@@ -23,6 +23,8 @@ class HVToken : SKSpriteNode {
     var isBlocked : Bool
     var inPlay : Bool
     var initialPosition : CGPoint
+    var row : Int
+    var column : Int
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -33,6 +35,8 @@ class HVToken : SKSpriteNode {
         self.isBlocked = false
         self.inPlay = false
         self.initialPosition = CGPoint.zero
+        self.row = -1
+        self.column = -1
         super.init(texture: texture, color: color, size: (texture?.size())!)
     }
     
