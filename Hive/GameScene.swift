@@ -12,15 +12,16 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var playerBlack : HVPlayer?
-    var playerWhite : HVPlayer?
+    var engine : HVEngine?
+//    var playerBlack : HVPlayer?
+//    var playerWhite : HVPlayer?
     
     var currentlyHeldPiece : HVToken?
     
     var scaleNum: CGFloat=1
     
     var turnLabel : SKLabelNode?
-    var playerTurn : PlayerColor?
+//    var playerTurn : PlayerColor?
     var playableRect: CGRect!
     var boardBackground:SKTileMapNode!
     var highlightBackground : SKTileMapNode!
@@ -44,6 +45,8 @@ class GameScene: SKScene {
         let zoomOutAction = SKAction.scale(to: 2, duration: 2)
         self.camera?.run(zoomOutAction)
         
+        self.engine = HVEngine(on: self)
+        
         guard let boardBackground = childNode(withName: "boardBackground")
             as? SKTileMapNode else {
                 fatalError("Background node not loaded")
@@ -65,23 +68,23 @@ class GameScene: SKScene {
         self.tabletopBackground = ttBackground
         
         currentlyHeldPiece = nil
-        playerTurn = PlayerColor.white
+//        playerTurn = PlayerColor.white
         
-        playerBlack = HVPlayer(color: PlayerColor.black)
-        playerBlack?.addTokens(to: self.camera!, on: self)
+//        playerBlack = HVPlayer(color: PlayerColor.black)
+//        playerBlack?.addTokens(to: self.camera!, on: self)
         
-        playerWhite = HVPlayer(color: PlayerColor.white)
-        playerWhite?.addTokens(to: self.camera!, on: self)
+//        playerWhite = HVPlayer(color: PlayerColor.white)
+//        playerWhite?.addTokens(to: self.camera!, on: self)
         
         
-        playerBlack?.hideDrawer()
-        playerWhite?.showDrawer()
+//        playerBlack?.hideDrawer()
+//        playerWhite?.showDrawer()
         
         turnLabel = SKLabelNode()
-        turnLabel?.text = String(format:"%@%@", "Player turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
+        turnLabel?.text = String(format:"%@%@", "Player turn: ", (self.engine?.activeColor() == PlayerColor.white ? "white" : "black"))
         turnLabel?.fontSize = 12
         turnLabel?.fontName = "Helvetica Neue Bold"
-        turnLabel?.fontColor = (playerTurn == PlayerColor.white ? UIColor.white : UIColor.black)
+        turnLabel?.fontColor = (self.engine?.activeColor() == PlayerColor.white ? UIColor.white : UIColor.black)
         turnLabel?.position = CGPoint(x: (-self.frame.size.width / 2) + (((turnLabel?.frame.size.width)! / 2) + 5), y: 198)
         turnLabel?.zPosition = 100
         self.camera?.addChild(turnLabel!)
@@ -94,10 +97,13 @@ class GameScene: SKScene {
         let playableMargin=(size.height-playableHeight)/2.0
         playableRect=CGRect(x:0, y: playableMargin, width: size.width, height: playableHeight)
     
-        guard let tileSet = SKTileSet(named: "Highlight Tile Set") else {
+//        guard let tileSet = SKTileSet(named: "Highlight Tile Set") else {
+//            fatalError("Object Tiles Tile Set not found")
+//        }
+        guard let tileSet = SKTileSet(named: "startHighlightTileSet") else {
             fatalError("Object Tiles Tile Set not found")
         }
-        
+
         let tileGroups = tileSet.tileGroups
         
         guard let hlTile = tileGroups.first else {
@@ -111,27 +117,36 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
         let touch : UITouch = touches.first!
-        let location = touch.location(in: self.camera!)
-    
-        let nodes : [SKNode] = (self.camera?.nodes(at: location))!
+        
+        var location = touch.location(in: self.camera!)
+        var nodes : [SKNode]
+            
+        nodes = (self.camera?.nodes(at: location))!
+        
+        if nodes.count == 0 {
+            location = touch.location(in: self)
+            nodes = (self.nodes(at: location))
+        }
+        
         
         print("Location: \(location)")
         print("--> nodes \(nodes)")
-        
         print(" ")
+        
             for node in nodes {
                 if  let token = node as? HVToken {
-                    print("found HVToken")
+//                    print("found HVToken")
                     currentlyHeldPiece = token
+                    currentlyHeldPiece?.zPosition = 1000
 //                    currentlyHeldPiece?.move(toParent: self)
                     break
                 }
             }
         
-        if currentlyHeldPiece != nil {
+//        if currentlyHeldPiece != nil {
 //            currentlyHeldPiece?.position = location
-            currentlyHeldPiece?.zPosition = 1000
-        }
+//            currentlyHeldPiece?.zPosition = 1000
+//        }
 
     }
     
@@ -171,9 +186,6 @@ class GameScene: SKScene {
             self.previousColumn = 0
             self.previousRow = 0
             
-            turnLabel?.fontColor = (playerTurn == PlayerColor.white ? UIColor.white : UIColor.black)
-            turnLabel?.text = String(format:"%@%@", "Players turn: ", (playerTurn == PlayerColor.white ? "white" : "black"))
-            
             let position = currentlyHeldPiece?.position
             let column = boardBackground.tileColumnIndex(fromPosition: position!)
             let row = boardBackground.tileRowIndex(fromPosition: position!)
@@ -184,21 +196,24 @@ class GameScene: SKScene {
                 currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
                 currentlyHeldPiece?.setInitial(point: CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3))
                 
-                if playerTurn == .white {
-                    playerTurn = .black
-                    playerWhite?.hideDrawer()
-                    playerBlack?.showDrawer()
-                } else {
-                    playerTurn = .white
-                    playerBlack?.hideDrawer()
-                    playerWhite?.showDrawer()
-                }
+                engine?.switchPlayers()
+                turnLabel?.fontColor = (self.engine?.activeColor() == PlayerColor.white ? UIColor.white : UIColor.black)
+                turnLabel?.text = String(format:"%@%@", "Players turn: ", (self.engine?.activeColor() == PlayerColor.white ? "white" : "black"))
+//                if playerTurn == .white {
+//                    playerTurn = .black
+//                    playerWhite?.hideDrawer()
+//                    playerBlack?.showDrawer()
+//                } else {
+//                    playerTurn = .white
+//                    playerBlack?.hideDrawer()
+//                    playerWhite?.showDrawer()
+//                }
             } else {
-                if playerTurn == .white {
-                    currentlyHeldPiece?.move(toParent: (playerWhite?.drawer)!)
-                } else {
-                    currentlyHeldPiece?.move(toParent: (playerBlack?.drawer)!)
-                }
+//                if playerTurn == .white {
+                    currentlyHeldPiece?.move(toParent: (self.engine?.activePlayer().drawer)!)
+//                } else {
+//                    currentlyHeldPiece?.move(toParent: (playerBlack?.drawer)!)
+//                }
                 
                 currentlyHeldPiece?.resetPosition()
             }
