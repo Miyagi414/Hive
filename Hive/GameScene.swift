@@ -104,24 +104,31 @@ class GameScene: SKScene {
 
         let tileGroups = tileSet.tileGroups
         
-        guard let hlTile = tileGroups.first else {
-            fatalError("No Highlight tile definition found")
+        for tileGroup in tileGroups {
+            if tileGroup.name == "blue" {
+                self.highlightTile = tileGroup
+            } else if tileGroup.name == "green" {
+                self.greenHighlightTile = tileGroup
+            }
         }
-        
-        self.highlightTile = hlTile
-        
-        
-        guard let greenTileSet = SKTileSet(named: "gHighlightTileSet") else {
-            fatalError("Object Tiles Tile Set not found")
-        }
-        
-        let greenTileGroups = greenTileSet.tileGroups
-        
-        guard let gHlTile = greenTileGroups.first else {
-            fatalError("No Highlight tile definition found")
-        }
-        
-        self.greenHighlightTile = gHlTile
+//        guard let hlTile = tileGroups.first else {
+//            fatalError("No Highlight tile definition found")
+//        }
+//        
+//        self.highlightTile = hlTile
+//        
+//        
+//        guard let greenTileSet = SKTileSet(named: "gHighlightTileSet") else {
+//            fatalError("Object Tiles Tile Set not found")
+//        }
+//        
+//        let greenTileGroups = greenTileSet.tileGroups
+//        
+//        guard let gHlTile = greenTileGroups.first else {
+//            fatalError("No Highlight tile definition found")
+//        }
+//        
+//        self.greenHighlightTile = gHlTile
         
     }
     
@@ -176,12 +183,12 @@ class GameScene: SKScene {
             let row = boardBackground.tileRowIndex(fromPosition: location)
             
             if row != self.previousRow || column != self.previousColumn {
-//                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
-//                if self.highlightBackground.tileGroup(atColumn: column, row: row) == nil {
-//                    self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
-//                    self.previousRow = row
-//                    self.previousColumn = column
-//                }
+                self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
+                if self.highlightBackground.tileGroup(atColumn: column, row: row) == nil {
+                    self.highlightBackground.setTileGroup(self.highlightTile, forColumn: column, row: row)
+                    self.previousRow = row
+                    self.previousColumn = column
+                }
                 
             }
             
@@ -199,8 +206,9 @@ class GameScene: SKScene {
 
         if currentlyHeldPiece != nil {
             self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
-            self.previousColumn = 0
-            self.previousRow = 0
+            self.highlightBackground.setTileGroup(nil, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
+            self.previousColumn = -1
+            self.previousRow = -1
             
             let position = currentlyHeldPiece?.position
             let column = boardBackground.tileColumnIndex(fromPosition: position!)
