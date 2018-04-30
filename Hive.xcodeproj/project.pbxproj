@@ -22,6 +22,7 @@
 		3926207F2087FF7800783773 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926207E2087FF7800783773 /* MenuScene.swift */; };
 		392620832087FFEE00783773 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 392620822087FFEE00783773 /* MenuScene.sks */; };
 		392620852091560D00783773 /* HVEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392620842091560D00783773 /* HVEngine.swift */; };
+		39F2220C2097D29600EA6BC6 /* HVHive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F2220B2097D29600EA6BC6 /* HVHive.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		3926207E2087FF7800783773 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		392620822087FFEE00783773 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		392620842091560D00783773 /* HVEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HVEngine.swift; sourceTree = "<group>"; };
+		39F2220B2097D29600EA6BC6 /* HVHive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HVHive.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				3926207420869C9E00783773 /* GameScene.sks */,
 				3926207620869CF300783773 /* GameScene.swift */,
 				392620842091560D00783773 /* HVEngine.swift */,
+				39F2220B2097D29600EA6BC6 /* HVHive.swift */,
 				3926207720869CF300783773 /* HVPlayer.swift */,
 				3926207820869CF300783773 /* HVToken.swift */,
 				3926204A20869C5A00783773 /* Main.storyboard */,
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3926207A20869CF300783773 /* HVPlayer.swift in Sources */,
+				39F2220C2097D29600EA6BC6 /* HVHive.swift in Sources */,
 				3926207920869CF300783773 /* GameScene.swift in Sources */,
 				3926204920869C5A00783773 /* GameViewController.swift in Sources */,
 				3926207F2087FF7800783773 /* MenuScene.swift in Sources */,

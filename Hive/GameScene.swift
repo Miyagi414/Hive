@@ -154,12 +154,14 @@ class GameScene: SKScene {
             for node in nodes {
                 if  let token = node as? HVToken {
 //                    print("found HVToken")
-                    currentlyHeldPiece = token
-                    currentlyHeldPiece?.zPosition = 1000
-                    print(" token original position - row: \((currentlyHeldPiece?.row)!)   column: \((currentlyHeldPiece?.column)!)")
-                    self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
-//                    currentlyHeldPiece?.move(toParent: self)
-                    break
+                    if engine?.activeColor() == token.getPlayerColor() {
+                        currentlyHeldPiece = token
+                        currentlyHeldPiece?.zPosition = 1000
+                        //print(" token original position - row: \((currentlyHeldPiece?.row)!)   column: \((currentlyHeldPiece?.column)!)")
+                        self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
+                        //                    currentlyHeldPiece?.move(toParent: self)
+                        break
+                    }
                 }
             }
         

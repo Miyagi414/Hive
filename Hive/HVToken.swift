@@ -69,4 +69,8 @@ class HVToken : SKSpriteNode {
     func resetPosition() {
         self.position = self.initialPosition
     }
+    
+    func getPlayerColor() -> PlayerColor {
+        return self.playerColor
+    }
 }

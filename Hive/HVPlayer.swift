@@ -120,6 +120,10 @@ class HVPlayer {
     func showDrawer() {
         self.drawer.alpha = 1
     }
+    
+    func getPlayerColor() -> PlayerColor {
+        return self.playerColor
+    }
 }
 
 
