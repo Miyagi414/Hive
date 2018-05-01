@@ -32,6 +32,7 @@ class GameScene: SKScene {
     var previousColumn : Int!
     var maxBoardRows : Int!
     var maxBoardColumns : Int!
+    var validPositions : [BoardPosition]!
 //    var whiteDrawer : SKSpriteNode!
     
     
@@ -158,7 +159,12 @@ class GameScene: SKScene {
                         currentlyHeldPiece = token
                         currentlyHeldPiece?.zPosition = 1000
                         //print(" token original position - row: \((currentlyHeldPiece?.row)!)   column: \((currentlyHeldPiece?.column)!)")
-                        self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
+                        self.validPositions = self.engine?.getValidPositions(for: currentlyHeldPiece!)
+                        print("\(validPositions)")
+//                        self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
+                        for validPosition in self.validPositions! {
+                            self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: validPosition.column, row: validPosition.row)
+                        }
                         //                    currentlyHeldPiece?.move(toParent: self)
                         break
                     }
@@ -208,7 +214,7 @@ class GameScene: SKScene {
 
         if currentlyHeldPiece != nil {
             self.highlightBackground.setTileGroup(nil, forColumn: self.previousColumn , row: self.previousRow)
-            self.highlightBackground.setTileGroup(nil, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
+            self.highlightBackground.setTileGroup(nil, forColumn: (currentlyHeldPiece?.boardPosition.column)!, row: (currentlyHeldPiece?.boardPosition.row)!)
             self.previousColumn = -1
             self.previousRow = -1
             
@@ -216,13 +222,19 @@ class GameScene: SKScene {
             let column = boardBackground.tileColumnIndex(fromPosition: position!)
             let row = boardBackground.tileRowIndex(fromPosition: position!)
             
-            if column >= 0 && column < self.maxBoardColumns && row >= 0 && row < self.maxBoardRows {
+            for validPosition in validPositions {
+                self.highlightBackground.setTileGroup(nil, forColumn: validPosition.column , row: validPosition.row)
+            }
+            
+//            if column >= 0 && column < self.maxBoardColumns && row >= 0 && row < self.maxBoardRows {
+            let droppedPosition = BoardPosition(column: column, row: row)
+            if self.validPositions.contains(where: { $0.column == droppedPosition.column && $0.row == droppedPosition.row }) {
                 print("token dropped at row: \(row) column: \(column)")
                 let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
                 currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
                 currentlyHeldPiece?.setInitial(point: CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3))
-                currentlyHeldPiece?.row = row
-                currentlyHeldPiece?.column = column
+                currentlyHeldPiece?.boardPosition.row = row
+                currentlyHeldPiece?.boardPosition.column = column
                 
                 engine?.switchPlayers()
                 turnLabel?.fontColor = (self.engine?.activeColor() == PlayerColor.white ? UIColor.white : UIColor.black)

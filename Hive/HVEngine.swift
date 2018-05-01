@@ -14,8 +14,11 @@ class HVEngine {
     var playerBlack : HVPlayer
     var playerWhite : HVPlayer
     var playerTurn : PlayerColor
+    var hive : HVHive
     
     init() {
+        hive = HVHive()
+        
         playerBlack = HVPlayer(color: PlayerColor.black)
         playerWhite = HVPlayer(color: PlayerColor.white)
         playerTurn = PlayerColor.white
@@ -53,5 +56,10 @@ class HVEngine {
     
     func activeColor() -> PlayerColor {
         return self.playerTurn
+    }
+    
+    func getValidPositions(for token:HVToken) -> [BoardPosition] {
+        
+        return self.hive.getValidMoves(for: token)
     }
 }

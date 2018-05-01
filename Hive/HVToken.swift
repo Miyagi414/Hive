@@ -15,7 +15,10 @@ enum CollisionCategory : UInt32 {
     case whiteSpider1, whiteSpider2, whiteAnt1, whiteAnt2, whiteAnt3, whiteGrasshopper1, whiteGrasshopper2, whiteGrasshopper3, whiteBeetle1, whiteBeetle2, whiteLadybug, whiteMosquito, whiteQueenBee
 }
 
-
+struct BoardPosition {
+    var column = -1
+    var row = -1
+}
 
 class HVToken : SKSpriteNode {
     
@@ -23,20 +26,18 @@ class HVToken : SKSpriteNode {
     var isBlocked : Bool
     var inPlay : Bool
     var initialPosition : CGPoint
-    var row : Int
-    var column : Int
+    var boardPosition : BoardPosition
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        self.boardPosition = BoardPosition(column:0, row:0)
         self.playerColor = PlayerColor.white
         self.isBlocked = false
         self.inPlay = false
         self.initialPosition = CGPoint.zero
-        self.row = -1
-        self.column = -1
         super.init(texture: texture, color: color, size: (texture?.size())!)
     }
     
@@ -72,5 +73,9 @@ class HVToken : SKSpriteNode {
     
     func getPlayerColor() -> PlayerColor {
         return self.playerColor
+    }
+    
+    func getBoardPosition() -> BoardPosition {
+        return self.boardPosition
     }
 }
