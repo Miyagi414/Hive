@@ -148,9 +148,9 @@ class GameScene: SKScene {
         }
         
         
-        print("Location: \(location)")
-        print("--> nodes \(nodes)")
-        print(" ")
+//        print("Location: \(location)")
+//        print("--> nodes \(nodes)")
+//        print(" ")
         
             for node in nodes {
                 if  let token = node as? HVToken {
@@ -160,7 +160,7 @@ class GameScene: SKScene {
                         currentlyHeldPiece?.zPosition = 1000
                         //print(" token original position - row: \((currentlyHeldPiece?.row)!)   column: \((currentlyHeldPiece?.column)!)")
                         self.validPositions = self.engine?.getValidPositions(for: currentlyHeldPiece!)
-                        print("\(validPositions)")
+//                        print("\(validPositions)")
 //                        self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: (currentlyHeldPiece?.column)!, row: (currentlyHeldPiece?.row)!)
                         for validPosition in self.validPositions! {
                             self.highlightBackground.setTileGroup(self.greenHighlightTile, forColumn: validPosition.column, row: validPosition.row)
@@ -229,13 +229,14 @@ class GameScene: SKScene {
 //            if column >= 0 && column < self.maxBoardColumns && row >= 0 && row < self.maxBoardRows {
             let droppedPosition = BoardPosition(column: column, row: row)
             if self.validPositions.contains(where: { $0.column == droppedPosition.column && $0.row == droppedPosition.row }) {
-                print("token dropped at row: \(row) column: \(column)")
+//                print("token dropped at row: \(row) column: \(column)")
                 let tileCenter = boardBackground.centerOfTile(atColumn: column, row: row)
                 currentlyHeldPiece?.position = CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3)
                 currentlyHeldPiece?.setInitial(point: CGPoint(x: tileCenter.x + 14, y: tileCenter.y - 3))
                 currentlyHeldPiece?.boardPosition.row = row
                 currentlyHeldPiece?.boardPosition.column = column
                 
+                engine?.hive.add(token: currentlyHeldPiece!)
                 engine?.switchPlayers()
                 turnLabel?.fontColor = (self.engine?.activeColor() == PlayerColor.white ? UIColor.white : UIColor.black)
                 turnLabel?.text = String(format:"%@%@", "Players turn: ", (self.engine?.activeColor() == PlayerColor.white ? "white" : "black"))
